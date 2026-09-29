@@ -1,0 +1,54 @@
+{
+  "common": {
+    "appName": "RN Arch",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "ok": "OK"
+  },
+  "errors": {
+    "network": "No internet connection. Check your network and try again.",
+    "timeout": "The request took too long. Please try again.",
+    "unauthorized": "Your session has expired. Please sign in again.",
+    "forbidden": "You don't have permission to do this.",
+    "notFound": "We couldn't find what you were looking for.",
+    "badRequest": "Something is wrong with the request.",
+    "server": "Our servers are having trouble. Please try again later.",
+    "parsing": "We received an unexpected response.",
+    "cancelled": "The request was cancelled.",
+    "unknown": "Something went wrong. Please try again.",
+    "compromisedDevice": "For your security, this app can't run on rooted or jailbroken devices."
+  },
+  "validation": {
+    "required": "This field is required",
+    "minLength": "Must be at least {{count}} characters"
+  },
+  "auth": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to continue",
+    "username": "Username",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "demoHint": "Demo account: emilys / emilyspass",
+    "invalidCredentials": "Invalid username or password."
+  },
+  "products": {
+    "title": "Products",
+    "empty": "No products yet.",
+    "rating": "★ {{rating}}"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "language": "Language",
+    "account": "Account",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "version": "Version {{version}} ({{env}})"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "goHome": "Go home"
+  }
+}
