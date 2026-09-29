@@ -1,0 +1,12 @@
+# E2E smoke test (https://maestro.mobile.dev): maestro test .maestro
+appId: com.example.rnarch.dev
+---
+- launchApp:
+    clearState: true
+- tapOn: 'Username'
+- inputText: 'emilys'
+- tapOn: 'Password'
+- inputText: 'emilyspass'
+- tapOn:
+    id: 'login-submit'
+- assertVisible: 'Products'
