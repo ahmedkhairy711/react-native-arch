@@ -9,7 +9,7 @@ import type { AuthRepository } from '../data/auth.repository';
 import type { User } from '../domain/user';
 
 /**
- * App-wide session state - the "Cubit": immutable state + methods that emit a new state.
+ * App-wide session state: immutable state + actions that set a new state.
  * Created in the DI container (so it can be replaced in tests), read with `useSessionStore(selector)`.
  */
 export type SessionState = {

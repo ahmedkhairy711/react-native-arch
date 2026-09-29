@@ -1,7 +1,7 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 /**
- * Flavors (the Flutter "flavors" equivalent).
+ * App environments (flavors).
  * Select one with APP_ENV=development|staging|production (see package.json scripts / eas.json).
  *
  * Everything under `extra.env` is embedded in the JS bundle and is readable by anyone

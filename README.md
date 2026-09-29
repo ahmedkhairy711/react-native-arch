@@ -3,11 +3,9 @@
 A clean, production-ready **React Native (Expo SDK 57, New Architecture, TypeScript)** starter.
 Clone it, rename it, delete the example features, and start building.
 
-It uses **MVVM with Cubit-style stores**, DI, typed i18n (English + Arabic with RTL), light/dark themes,
+It uses **MVVM with Zustand stores**, DI, typed i18n (English + Arabic with RTL), light/dark themes,
 secure networking with a dev-only cURL logger, tests, CI, and hardening for release builds. It stays
 small on purpose: repositories and entities, **no use-case layer** or other ceremony until you need it.
-
-> **Coming from Flutter?** See the [Flutter → React Native map](#flutter--react-native-map) below.
 
 ---
 
@@ -26,7 +24,7 @@ Demo login: **`emilys` / `emilyspass`** (public [DummyJSON](https://dummyjson.co
 | `npm start` / `start:staging` / `start:prod`         | Metro for the chosen flavor                            |
 | `npm run android` / `ios`                            | Build & run the dev client locally                     |
 | `npm run build:dev` / `build:staging` / `build:prod` | Cloud builds with EAS (`eas.json`)                     |
-| `npm run gen:assets`                                 | Regenerate typed asset index (flutter_gen equivalent)  |
+| `npm run gen:assets`                                 | Regenerate the typed asset index                       |
 | `npm run check`                                      | Assets check + typecheck + lint + tests (what CI runs) |
 | `npm test` / `test:watch` / `test:coverage`          | Jest + React Native Testing Library                    |
 | `npm run lint` / `lint:fix` / `format`               | ESLint (strict, type-aware) + Prettier                 |
@@ -35,32 +33,31 @@ Git hooks (Husky): **pre-commit** runs lint-staged, **pre-push** runs typecheck 
 
 ---
 
-## Flutter → React Native map
+## Tech stack
 
-| Flutter                                | This starter                                                                             |
-| -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `flutter_lints` / `very_good_analysis` | ESLint 9 flat config (`eslint-config-expo` + type-aware TS rules) + Prettier + strict TS |
-| `flutter_gen`                          | `scripts/gen-assets.mjs` → `Images.logo`, `Fonts` (typed, checked in CI)                 |
-| `flutter_bloc` Cubit                   | **Zustand** vanilla stores (`createStore`) — state + methods that emit new state         |
-| ViewModel                              | `useXxxViewModel()` hook per screen                                                      |
-| `get_it` / `injectable`                | `createDependencies()` composition root + `useDependencies()` (React context)            |
-| `dio` + interceptors                   | **axios** + interceptors (auth, single-flight token refresh, error mapping)              |
-| `pretty_dio_logger` / curl logger      | `http-logger.ts`: every request printed as **cURL** — dev only, stripped from release    |
-| `freezed` / `json_serializable`        | **zod** schemas (runtime validation at the API boundary) + mappers to entities           |
-| `easy_localization` / `intl`           | **i18next** + `react-i18next` + `expo-localization`, type-safe keys, RTL                 |
-| `ThemeData` light/dark                 | `theme.ts` tokens + `ThemeProvider` + `makeStyles()`                                     |
-| `flutter_secure_storage`               | `expo-secure-store` (Keychain / Keystore)                                                |
-| `shared_preferences` / `hive`          | **MMKV** (sync, AES-256 encrypted, key kept in Keychain/Keystore)                        |
-| `go_router` + redirect                 | **Expo Router** (file-based, typed routes) + `Stack.Protected` auth guard                |
-| `ListView.builder`                     | **FlashList** (view recycling)                                                           |
-| `cached_network_image`                 | **expo-image** (memory + disk cache)                                                     |
-| `reactive_forms` / form validators     | **react-hook-form** + zod                                                                |
-| `flutter_flavors`                      | `APP_ENV` flavors in `app.config.ts` (+ separate bundle IDs so all can be installed)     |
-| `--obfuscate --split-debug-info`       | Hermes bytecode + R8 minify/shrink + console stripping                                   |
-| `flutter_jailbreak_detection`          | `jail-monkey`                                                                            |
-| `http_certificate_pinning`             | `react-native-ssl-public-key-pinning`                                                    |
-| `flutter_test` / `mocktail`            | Jest + React Native Testing Library + plain fakes via DI                                 |
-| `integration_test`                     | Maestro flow in `.maestro/`                                                              |
+| Concern              | Choice                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| Framework            | Expo SDK 57, React Native New Architecture, Hermes, React Compiler                          |
+| Language & lint      | TypeScript strict, ESLint 9 flat config (`eslint-config-expo` + type-aware rules), Prettier |
+| Navigation           | **Expo Router** (file-based, typed routes) + `Stack.Protected` auth guard                   |
+| App state            | **Zustand** vanilla stores (`createStore`), read with selectors                             |
+| Server state         | **TanStack Query** (caching, pagination, cancellation, refetch on focus)                    |
+| Screen logic         | `useXxxViewModel()` hook per screen (MVVM)                                                  |
+| Dependency injection | `createDependencies()` composition root + `useDependencies()` (React context)               |
+| HTTP                 | **axios** + interceptors (auth, single-flight token refresh, error mapping)                 |
+| Debug logging        | `http-logger.ts`: every request printed as **cURL**, dev only, stripped from release        |
+| API models           | **zod** schemas (runtime validation at the API boundary) + mappers to entities              |
+| Forms                | **react-hook-form** + zod                                                                   |
+| i18n                 | **i18next** + `react-i18next` + `expo-localization`, type-safe keys, RTL                    |
+| Theming              | `theme.ts` tokens + `ThemeProvider` + `makeStyles()`                                        |
+| Secure storage       | `expo-secure-store` (Keychain / Keystore)                                                   |
+| Key-value storage    | **MMKV** (sync, AES-256 encrypted, key kept in Keychain/Keystore)                           |
+| Lists & images       | **FlashList** (view recycling), **expo-image** (memory + disk cache)                        |
+| Typed assets         | `scripts/gen-assets.mjs` → `Images.logo`, `Fonts` (checked in CI)                           |
+| Environments         | `APP_ENV` in `app.config.ts` (development / staging / production, separate bundle IDs)      |
+| Hardening            | Hermes bytecode, R8 minify/shrink, console stripping, `jail-monkey`, SSL public-key pinning |
+| Testing              | Jest + React Native Testing Library + fakes via DI; Maestro E2E flow in `.maestro/`         |
+| CI / builds          | GitHub Actions, Husky + lint-staged, EAS Build                                              |
 
 ---
 
@@ -90,7 +87,7 @@ src/
     └── <feature>/
         ├── domain/             # Entities (plain TS types)
         ├── data/               # DTOs (zod) + mappers + Repository (interface + impl)
-        ├── store/              # Optional app-wide state for the feature ("Cubit")
+        ├── store/              # Optional app-wide state for the feature (Zustand)
         └── presentation/
             └── <screen>/       # XxxScreen.tsx (View) + useXxxViewModel.ts (ViewModel) + tests
 test/                           # Jest setup + renderWithProviders()
@@ -107,14 +104,14 @@ Lint rules enforce the boundaries: `core/` and `shared/` can't import features; 
 ```
 View (Screen.tsx)  ──uses──▶  ViewModel (useXxxViewModel)  ──▶  Repository  ──▶  HttpClient / Storage
       ▲                               │   ▲
-      └──────── renders state ◀───────┘   └── Store (Zustand "Cubit") for app-wide state (session, settings)
+      └──────── renders state ◀───────┘   └── Store (Zustand) for app-wide state (session, settings)
 ```
 
 - **View**: renders what the ViewModel exposes and forwards user intents. No API calls or business rules.
 - **ViewModel**: a hook with the screen's logic. It uses **TanStack Query** for server state (loading,
   errors, caching, pagination, cancellation, refetch on focus) and stores for app state. It returns a
   small, render-ready object.
-- **Store ("Cubit")**: a Zustand vanilla store with immutable state and methods that emit new state
+- **Store**: a Zustand vanilla store with immutable state and actions that set new state
   (`session.store.ts`, `settings.store.ts`). Read it with selectors, for example
   `useSessionStore((s) => s.status)`, so components only re-render when that slice changes.
 - **Repository**: the only thing that knows the API. It parses responses with zod, maps DTOs to
@@ -175,7 +172,7 @@ server | parsing | cancelled | unknown`). The UI shows `t('errors.<kind>')` and 
 - Styles: `const useStyles = makeStyles((t) => ({ ... }))` at module level, then `useStyles()` in the
   component. There is one `StyleSheet` per scheme, created lazily and reused.
 
-## Assets (flutter_gen equivalent)
+## Typed assets
 
 Drop files in `assets/images` or `assets/fonts`, then run `npm run gen:assets`:
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * flutter_gen for React Native: scans /assets/images and /assets/fonts and writes a typed index
+ * Typed asset generator: scans /assets/images and /assets/fonts and writes a typed index
  * (src/core/generated/assets.gen.ts). No more string paths / typos:
  *
  *   <Image source={Images.logo} />
